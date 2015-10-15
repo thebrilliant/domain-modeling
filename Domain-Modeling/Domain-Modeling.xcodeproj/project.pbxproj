@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CA4B81E1BCDE85200D0F007 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4B81D1BCDE85200D0F007 /* main.swift */; };
+		2CA4B8251BD06A2900D0F007 /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4B8241BD06A2900D0F007 /* UnitTests.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		2CA4B81A1BCDE85200D0F007 /* Domain-Modeling */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Domain-Modeling"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CA4B81D1BCDE85200D0F007 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		2CA4B8241BD06A2900D0F007 /* UnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnitTests.swift; path = Unit_Testing/UnitTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 		2CA4B8111BCDE85200D0F007 = {
 			isa = PBXGroup;
 			children = (
+				2CA4B8241BD06A2900D0F007 /* UnitTests.swift */,
 				2CA4B81C1BCDE85200D0F007 /* Domain-Modeling */,
 				2CA4B81B1BCDE85200D0F007 /* Products */,
 			);
@@ -119,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CA4B81E1BCDE85200D0F007 /* main.swift in Sources */,
+				2CA4B8251BD06A2900D0F007 /* UnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
