@@ -142,6 +142,7 @@ class Job {
             var currency = currYear.substringToIndex(currYear.rangeOfString(" ")!.startIndex)
             currYear = currYear.substringFromIndex(currYear.rangeOfString(" ")!.endIndex)
             salary = Money(amt: temp, cur: currency)
+            hourYear = currYear
         } else {
             //assume sal to be per year if in format: 75000 USD
             let temp = Double(sal.substringToIndex(sal.rangeOfString(" ")!.startIndex))!
@@ -231,7 +232,7 @@ class Family {
         var total = 0.0
         for person in family {
             if person.job != nil {
-                total += (person.job?.calculateIncome(<#T##numHours: Int?##Int?#>))!
+                total += (person.job?.calculateIncome(nil))!
             }
         }
         

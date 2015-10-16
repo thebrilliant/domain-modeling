@@ -5,9 +5,9 @@
 //  Created by Vivyan Woods on 10/15/15.
 //  Copyright © 2015 Vivyan Woods. All rights reserved.
 //
-
+/*
 import XCTest
-@testable import Domain-Modeling//.main.swift
+//@testable import Domain-Modeling//.main.swift
 
 class UnitTests: XCTestCase {
 
@@ -40,7 +40,25 @@ class UnitTests: XCTestCase {
             print("test failed")
         }
         
-        //var job1 = Job(title: "Captain", sal: "73000 USD yr")
+        var newRes = result.add(mon2)
+        var newRes2 = result.sub(mon2)
+        var test9 = res.add(mon2)
+        var tes10 = res.sub(mon2)
+        
+        var job1 = Job(title: "Captain", sal: "73000 USD yr")
+        var job2 = Job(title: "Lab Assistant", sal: "10 USD hr")
+        var job3 = Job(title: "TA", sal: "13 USD hr")
+        var job4 = Job(title: "Coach", sal: "1000 EUR hr")
+        var job5 = Job(title: "Hero", sal: "100000 CAN yr")
+        
+        var jobs = [job1, job2, job3, job4, job5]
+        for job in jobs {
+            print("\(job.title) makes:")
+            print(job.calculateIncome(40))
+            job.raise(0.01)
+            print("salaray after 1% raise:")
+            print("\(job.salary.amount) or \(job.calculateIncome(40))")
+        }
     }
     
     override func tearDown() {
@@ -60,4 +78,4 @@ class UnitTests: XCTestCase {
         }
     }
 
-}
+}*/
