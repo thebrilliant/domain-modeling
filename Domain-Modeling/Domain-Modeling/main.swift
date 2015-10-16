@@ -9,6 +9,9 @@
 import Foundation
 
 print("Hello, World!")
+//print("TESTING!!!")
+print("We're gonna make some money, jobs, people and families")
+print("")
 
 class Money {
     var amount : Double
@@ -103,17 +106,13 @@ class Money {
         }
     }
     
-    private func convertToUSD(amt: Double, cur: String) {
-        
-    }
-    
     func add(other: Money) -> Money {
         if other.currency != self.currency {
             other.convert(self.currency)
         }
         var total = 0.0
         total = self.amount + other.amount
-        
+        print("\(total) \(self.currency)")
         return Money(amt: total, cur: self.currency)
     }
     
@@ -123,7 +122,7 @@ class Money {
         }
         var total = 0.0
         total = self.amount - other.amount
-        
+        print("\(total) \(self.currency)")
         return Money(amt: total, cur: self.currency)
     }
 }
@@ -140,6 +139,8 @@ class Job {
             let temp = Double(sal.substringToIndex(sal.rangeOfString(" ")!.startIndex))!
             var currYear = sal.substringFromIndex(sal.rangeOfString(" ")!.endIndex)
             var currency = currYear.substringToIndex(currYear.rangeOfString(" ")!.startIndex)
+            print(currYear)
+            print("currency: " + currency)
             currYear = currYear.substringFromIndex(currYear.rangeOfString(" ")!.endIndex)
             salary = Money(amt: temp, cur: currency)
             hourYear = currYear
@@ -147,6 +148,11 @@ class Job {
             //assume sal to be per year if in format: 75000 USD
             let temp = Double(sal.substringToIndex(sal.rangeOfString(" ")!.startIndex))!
             var currYear = sal.substringFromIndex(sal.rangeOfString(" ")!.endIndex)
+            var currency = currYear.substringToIndex(currYear.rangeOfString(" ")!.startIndex)
+            print(currYear)
+            print("currency: " + currency)
+            currYear = currYear.substringFromIndex(currYear.rangeOfString(" ")!.endIndex)
+            print("currency and yearly: \(currYear)")
             salary = Money(amt: temp, cur: currYear)
             hourYear = "year"
         }
@@ -155,15 +161,15 @@ class Job {
     func calculateIncome(var numHours: Int?) -> Double {
         if numHours == nil {
             if hourYear.containsString("y") {
-                //print("\(salary) / year")
+                print("\(salary.amount) / year")
                 return salary.amount
             } else {
                 //assumed no hours worked
                 numHours = 0
             }
         }
-        //print("\(salary * Double(numHours!)) / year")
-        return salary.amount * Double(numHours!)
+        print("\(salary.amount * (Double(numHours!) * 52)) / year")
+        return salary.amount * (Double(numHours!) * 52)
     }
     
     func raise(percent: Double) {
@@ -184,16 +190,18 @@ class Person {
         age = 0
     }
     
-    init (fName: String, lName: String, age: Int, occ: Job, sO: Person) {
+    init (fName: String, lName: String, age: Int, occ: Job?, sO: Person?) {
         firstName = fName
         lastName = lName
         self.age = age
         job = occ
         if age < 16 {
+            print("YOU CAN'T HAVE A JOB")
             job = nil
         }
         spouse = sO
         if age < 18 {
+            print("YOU CAN'T BE MARRIED! WAIT UNTIL YOU'RE OLDER!")
             spouse = nil
         }
     }
@@ -222,7 +230,6 @@ class Family {
             }
         }
         if !isValid {
-            //throw exception??
             print("this family is illegal")
         }
         family = fam
@@ -240,8 +247,74 @@ class Family {
     }
     
     func haveBaby() {
+        print("congratulations! your family had a baby")
         family.append(Person())
     }
 }
 
 
+var mon1 = Money(amt: 73500.0, cur: "USD")
+var mon2 = Money(amt: 5763053.9, cur: "GBP")
+var mon3 = Money(amt: 3525.0, cur: "Yen")
+var mon4 = Money(amt: 500.0, cur: "USD")
+
+switch mon3.currency {
+case "USD", "GBP", "EUR", "CAN":
+    print("test passed")
+default:
+    print("test failed")
+}
+
+var result = mon1.add(mon4)
+switch result.amount {
+case 74000.0:
+    print("test passed")
+default:
+    print("test failed")
+}
+var res = mon1.sub(mon4)
+switch res.amount {
+case 73000.0:
+    print("test passed")
+default:
+    print("test failed")
+}
+
+var newRes = result.add(mon2)
+var newRes2 = result.sub(mon2)
+
+newRes.convert("EUR")
+
+var job1 = Job(title: "Sleuth", sal: "73000 USD /yr")
+var job2 = Job(title: "Lab Assistant", sal: "10 USD /hr")
+var job3 = Job(title: "TA", sal: "13 USD /hr")
+var job4 = Job(title: "Captain", sal: "1000 EUR hr")
+var job5 = Job(title: "Hero", sal: "100000 CAN yr")
+
+var jobs = [job1, job2, job3, job4, job5]
+for job in jobs {
+    print("\(job.title) makes:")
+    print(job.calculateIncome(40))
+    job.raise(0.01)
+    print("salaray after 1% raise:")
+    print("\(job.salary.amount) or \(job.calculateIncome(40))")
+}
+
+
+var person1 = Person(fName: "L", lName: "Ryuzaki", age: 21, occ: job1, sO: nil)
+var person2 = Person(fName: "Light", lName: "Yagami", age: 19, occ: job3, sO: person1)
+person1.spouse = person2
+var person3 = Person(fName: "Daiki", lName: "Aomine", age: 16, occ: job4, sO: nil)
+var person4 = Person(fName: "Taiga", lName: "Kagami", age: 15, occ: job4, sO: person3)
+
+var family1 = Family(fam: [person1, person2])
+var family2 = Family(fam: [person3, person4])
+family1.haveBaby()
+print("household income: \(family1.householdIncome())")
+for person in family1.family {
+    print(person.toString())
+}
+
+for person in family2.family {
+    print(person.toString())
+}
