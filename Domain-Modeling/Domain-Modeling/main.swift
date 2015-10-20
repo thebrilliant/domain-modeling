@@ -13,7 +13,19 @@ print("Hello, World!")
 print("We're gonna make some money, jobs, people and families")
 print("")
 
-class Money {
+protocol Mathematics {
+    func add(other: Money)
+    func sub(other: Money)
+}
+
+extension Double {
+    var USD: Money {return Money(amt: self, cur: "USD")}
+    var GBP: Money {return Money(amt: self, cur: "GBP")}
+    var EUR: Money {return Money(amt: self, cur: "EUR")}
+    var YEN: Money {return Money(amt: self, cur: "YEN")}
+}
+
+class Money : CustomStringConvertible, Mathematics {
     var amount : Double
     var currency : String
     
@@ -29,6 +41,10 @@ class Money {
             cur = "USD"
         }
         currency = cur
+    }
+    
+    var description: String {
+        return "\(amount)\(currency)"
     }
     
     func convert(var cur: String) {
@@ -106,26 +122,74 @@ class Money {
         }
     }
     
-    func add(other: Money) -> Money {
+    func add(other: Money) {
         if other.currency != self.currency {
             other.convert(self.currency)
         }
         var total = 0.0
         total = self.amount + other.amount
-        print("\(total) \(self.currency)")
-        return Money(amt: total, cur: self.currency)
+        //print("\(total) \(self.currency)")
+        self.amount = total
     }
     
-    func sub(other: Money) -> Money{
+    func addWithReturn(other: Money) -> Money {
+        self.add(other)
+        return Money(amt: amount, cur: currency)
+    }
+    
+    func sub(other: Money) {
         if other.currency != self.currency {
             other.convert(self.currency)
         }
         var total = 0.0
         total = self.amount - other.amount
-        print("\(total) \(self.currency)")
-        return Money(amt: total, cur: self.currency)
+        //print("\(total) \(self.currency)")
+        self.amount = total
+    }
+    
+    func subWithReturn(other: Money) -> Money {
+        self.sub(other)
+        return Money(amt: amount, cur: currency)
     }
 }
+
+func makeMoney() {
+    var mon1 = Money(amt: 16.07, cur: "USD")
+    let mon2 = Money(amt: 73500.0, cur: "EUR")
+    let mon3 = Money(amt: 42.0, cur: "CAN")
+    let mon4 = Money(amt: 13.0, cur: "GBP")
+    
+    print("Money Description Unit Tests:")
+    print("Expected: 16.07USD")
+    print("Actual: \(mon1.description)")
+    print("Expected: 73500.0EUR")
+    print("Actual: \(mon2.description)")
+    print("Expected: 42.0CAN")
+    print("Actual: \(mon3.description)")
+    print("Expected: 13.0GBP")
+    print("Actual: \(mon4.description)")
+    
+    let mon5 = Money(amt: 10.22, cur: "USD")
+    print("Money + - Unit Tests:")
+    print("Add: 10.22 + 16.07 USD")
+    print("Expected: 26.29USD")
+    mon1.add(mon5)
+    print("Actual: \(mon1.description)")
+    print("Subtract: 26.29 - 10.22 USD")
+    print("Expcted: 16.07USD")
+    mon1.sub(mon5)
+    print("Actual: \(mon1.description)")
+    
+    print("Double Extension Money Unit Tests:")
+    let amt = 15.09
+    print("I have \(amt) in:")
+    print(amt.USD.description)
+    print(amt.EUR.description)
+    print(amt.GBP.description)
+    print(amt.YEN.description)
+}
+
+makeMoney()
 
 class Job {
     let title: String
@@ -173,7 +237,7 @@ class Job {
     }
     
     func raise(percent: Double) {
-        salary = salary.add(Money(amt: (salary.amount * percent), cur: salary.currency))
+        salary = salary.addWithReturn(Money(amt: (salary.amount * percent), cur: salary.currency))
     }
 }
 
@@ -265,14 +329,14 @@ default:
     print("test failed")
 }
 
-var result = mon1.add(mon4)
+var result = mon1.addWithReturn(mon4)
 switch result.amount {
 case 74000.0:
     print("test passed")
 default:
     print("test failed")
 }
-var res = mon1.sub(mon4)
+var res = mon1.subWithReturn(mon4)
 switch res.amount {
 case 73000.0:
     print("test passed")
@@ -280,8 +344,8 @@ default:
     print("test failed")
 }
 
-var newRes = result.add(mon2)
-var newRes2 = result.sub(mon2)
+var newRes = result.addWithReturn(mon2)
+var newRes2 = result.subWithReturn(mon2)
 
 newRes.convert("EUR")
 
