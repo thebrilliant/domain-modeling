@@ -22,7 +22,7 @@ extension Double {
     var USD: Money {return Money(amt: self, cur: "USD")}
     var GBP: Money {return Money(amt: self, cur: "GBP")}
     var EUR: Money {return Money(amt: self, cur: "EUR")}
-    var YEN: Money {return Money(amt: self, cur: "YEN")}
+    var CAN: Money {return Money(amt: self, cur: "CAN")}
 }
 
 class Money : CustomStringConvertible, Mathematics {
@@ -186,7 +186,7 @@ func makeMoney() {
     print(amt.USD.description)
     print(amt.EUR.description)
     print(amt.GBP.description)
-    print(amt.YEN.description)
+    print(amt.CAN.description)
 }
 
 makeMoney()
